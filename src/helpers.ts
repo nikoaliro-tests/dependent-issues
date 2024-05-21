@@ -1,4 +1,6 @@
 // Packages
+import axios from 'axios';
+import * as core from '@actions/core';
 import { dequal } from 'dequal';
 import uniqBy from 'lodash.uniqby';
 import IssueRegex from 'issue-regex';
@@ -194,7 +196,18 @@ export class IssueManager {
 				issue_number: issue.number,
 				name: this.config.label,
 			});
+			await sendSlack(issue);
 		}
+	}
+
+	async sendSlack(issue: Issue) {
+		const webhookUrl = process.env.SLACK_WEBHOOK_URL
+		core.debug(`Sending slack message tp ${webhookUrl} about #${issue.number} - ${issue.title}.`);
+		const payload = {
+			"pull_request_number": issue.number,
+			"pull_request_title": issue.title
+		};
+		await axios.post(webhookUrl, payload, {});
 	}
 
 	/**
