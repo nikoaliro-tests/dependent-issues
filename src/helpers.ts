@@ -325,6 +325,7 @@ export class IssueManager {
 	}
 
 	async updateCommitStatus(issue: Issue, dependencies: Dependency[]) {
+		core.info(`Updating PR status for #${issue.pull_request}`);
 		if (!issue.pull_request) {
 			return;
 		}

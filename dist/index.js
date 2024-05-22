@@ -526,6 +526,7 @@ class IssueManager {
     }
     updateCommitStatus(issue, dependencies) {
         return __awaiter(this, void 0, void 0, function* () {
+            core.info(`Updating PR status for #${issue.pull_request}`);
             if (!issue.pull_request) {
                 return;
             }
